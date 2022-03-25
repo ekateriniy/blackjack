@@ -1,3 +1,4 @@
+require 'pry'
 class BlackJack
   attr_accessor :players, :score
   attr_reader :bank, :card_deck
@@ -57,7 +58,7 @@ class BlackJack
       puts "Ваше количество очков: #{score[:user]}"
       computer_action
     end
-    
+
       show_users_cards
       show_computers_cards
       score_counter
@@ -126,11 +127,11 @@ class BlackJack
 
   # определение победителя, в соответствии с условиями игры
   def decide_the_winner
-    if score[:user] == score[:computer] 
+    if score[:user] == score[:computer] || score.values.min > 21
       players.each_value { |player| bank.give_money_to(player, 2) }
       return winner = 'не определен. Ничья.'
     elsif score.values.max > 21
-      score.select { |player, result| winner = player if result < 21 }
+      score.select { |player, result| winner = player if result <= 21 }
     else
       score.select { |player, result| winner = player if result <= 21 && result == score.values.max }
     end
