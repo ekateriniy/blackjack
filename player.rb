@@ -33,6 +33,6 @@ class Player
   end
 
   def check_money!(sum)
-    raise "There are no money on #{:name}'s account" if money < sum
+    raise "There are no money on #{name}'s account" if money < sum
   end
 end
