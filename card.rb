@@ -12,17 +12,22 @@ class Card
 
   # подсчет количества очков, которое содержится в картах
   # если есть туз - число обрабатывается в соответствие с condition игры
-
   def score(cards, condition)
     score = 0
+    ace = false
     cards.each do |card|
       if card[0] == 'A'
-        condition.call(score) ? score += 11 : score += 1
+        ace = true
+        next
       elsif card[0].is_a? String 
         score += 10
       else
         score += card[0]
       end
+    end
+
+    if ace
+      condition.call(score) ? score += 11 : score += 1
     end
 
     score
