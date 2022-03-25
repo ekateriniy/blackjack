@@ -44,13 +44,9 @@ class BlackJack
 
     puts "Нажмите 1, чтобы пропустить ход.\n" \
     "Нажмите 2, чтобы взять еще одну карту.\n" \
-    "Нажмите 3, чтобы открыть карты."
+    "Нажмите Enter, чтобы открыть карты."
 
-    if players[:user].cards.size >= 3 || players[:computer].cards.size == 3
-      action = 3
-    else
-      action = gets.to_i
-    end
+    action = gets.to_i
 
     case action
     when 1
@@ -60,26 +56,25 @@ class BlackJack
       show_users_cards
       puts "Ваше количество очков: #{score[:user]}"
       computer_action
-    when 3
+    end
+    
       show_users_cards
       show_computers_cards
+      score_counter
 
       puts "Ваше количество очков: #{score[:user]}\n" \
       "Количество очков у дилера: #{score[:computer]}\n" \
       "Победитель: #{decide_the_winner}"
 
       clear_game
-    end
   end
 
   def computer_action
     if score[:computer] >= 17
       puts 'Дилер пропускает ход'
-      user_action
     else
       player_take_card(players[:computer])
       puts 'Дилер берет еще одну карту'
-      user_action
     end
   end
 
@@ -131,9 +126,7 @@ class BlackJack
 
   # определение победителя, в соответствии с условиями игры
   def decide_the_winner
-    score_counter
-
-    if score[:user] == score[:computer]
+    if score[:user] == score[:computer] 
       players.each_value { |player| bank.give_money_to(player, 2) }
       return winner = 'не определен. Ничья.'
     elsif score.values.max > 21
